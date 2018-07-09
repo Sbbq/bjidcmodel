@@ -13,15 +13,17 @@
       </el-header>
       <el-container>
         <el-aside width="200px">
-          <el-tree node-key="id" :data="menus" :props="defaultProps" accordion @node-click="handleNodeClick">
-            <span class="custom-tree-node" slot-scope="{ node, data }">
-              <span>
-                <router-link :to="data.Url">
-                  <span>{{ node.label }}</span>
-                </router-link>
-              </span>
-            </span>
-          </el-tree>
+          <el-menu router unique-opened >
+            <el-submenu :index="menu.id+''" v-for="menu in menus" :key="menu.id">
+              <template slot="title">
+                <i :class="menu.icon" class="icon-sty"></i>
+                <span>{{menu.label}}</span>
+              </template>
+              <el-menu-item-group v-for="submenu in menu.children"  :key="submenu.id">
+                <el-menu-item @click.native.stop="select(submenu.id)" :class="{'selected':isselected==submenu.id}" :index="submenu.Url">{{submenu.label}}</el-menu-item>
+              </el-menu-item-group>
+            </el-submenu>
+          </el-menu>
         </el-aside>
         <el-main>
           <router-view />
@@ -38,16 +40,40 @@
 .el-main{
   background-color: #f0f2f5;
 }
-.el-tree{
-  background-color: #104694;
-  color: #fff
-}
-.el-aside .el-tree-node__content{
+.el-aside .el-submenu{
   background-color: #104694;
   color: #fff;
-  padding: 7px 0 9px 37px;
+  width: 200px;
 }
-.el-tree-node__content:hover .custom-tree-node a{
+.el-menu-item-group{
+  background-color:
+}
+.el-submenu__title{
+  color: #fff;
+  height: 38px;
+  line-height: 38px;
+  text-align: left;
+  font-size: 13px;
+}
+.el-submenu__title:hover{
+  color: #666;
+  background-color: #104694;
+}
+.el-menu-item-group__title{
+  display: none;
+}
+.el-menu-item{
+  color: #fff;
+  height: 35px;
+  line-height: 35px;
+  background-color: rgb(22, 56, 104);
+  text-align: left;
+  padding-left: 20px;
+}
+.el-menu-item{
+  padding-left: 53px!important;
+}
+.el-menu-item:hover{
   color: #666;
 }
 .el-aside:before{
@@ -58,24 +84,41 @@
   bottom: 0;
   top: 65px;
   background-color: #104694;
-  border: 1px solid #ccc;
-  border-width: 0 1px 0 0;
+}
+.el-main:after {
+  background-color: #F0F2F5;
+  bottom: 0;
+  left: 0;
+  content: "";
+  display: block;
+  max-width: inherit;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: -2;
 }
 .custom-tree-node a{
   color: #fff;
   font-size: 13px;
 }
-.treeselected{
-  background-color: #1890ff;
+i.icon-sty{
+  color: #fff;
+  padding-right: 13px;
+}
+.el-menu-item-group.selected{
+  background-color: #22eeaa;
+  z-index: 100;
 }
 </style>
 
 <script>
+
 export default {
   name: 'Header',
   data () {
     return {
       menus: [],
+      isselected:0,
       defaultProps: {
         children: 'children',
         label: 'label'
@@ -85,6 +128,11 @@ export default {
   mounted(){
     this.getMenuList();
   },
+  computed: {
+    defaultActive: function(){
+      return this.$route.path.replace('/', '');
+    }
+  },
   methods:{
     getMenuList(){
       this.$ajax.get("/menus").then((res)=>{
@@ -92,6 +140,10 @@ export default {
           this.menus=res.data.data;
         }
       })
+    },
+    select(id){
+      console.log(id);
+      this.isselected=id;
     },
     handleNodeClick(data) {
       console.log(data);

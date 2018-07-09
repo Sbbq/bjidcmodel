@@ -1,3 +1,5 @@
+@import url('//at.alicdn.com/t/font_707938_qdcxphu8qi.css');
+
 body{
   font-family: 'Microsoft YaHei';
   margin: 0;
@@ -5,10 +7,19 @@ body{
 }
 a{
   text-decoration: none;
+  color: #fff;
+}
+ul,li{
+  margin: 0;
+  padding: 0;
+  border: 0;
 }
 .outer-wrap{
 
 }
+
+
+
 .nav-header{
   position: fixed;
   top:0;
