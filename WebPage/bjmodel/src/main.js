@@ -7,10 +7,11 @@ import './assets/css/style.css'
 import App from './App'
 import router from './router'
 import axios from 'axios'
+import "babel-polyfill"
 
 Vue.config.productionTip = false;
 Vue.use(ElementUI);
-Vue.prototype.$ajax=axios;
+Vue.prototype.$axios=axios;
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

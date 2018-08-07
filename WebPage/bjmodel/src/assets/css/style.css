@@ -48,3 +48,18 @@ ul,li{
   width: auto;
   max-height: 33px;
 }
+.vertical-align{
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 16px;
+  color: #111;
+}
+.loginimg{
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+}
+

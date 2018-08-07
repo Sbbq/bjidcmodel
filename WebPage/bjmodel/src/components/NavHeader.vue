@@ -9,6 +9,18 @@
             </a>
             北京电信IDC机房智慧运营
           </div>
+          <el-dropdown trigger="click">
+            <span class="el-dropdown-link">
+              <div class="vertical-align">
+                <img src="../assets/guanliyuan.png" class="loginimg">
+              {{username}}<i class="el-icon-arrow-down el-icon--right"></i>
+              </div>
+            </span>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item>修改密码</el-dropdown-item>
+              <el-dropdown-item>注销</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
         </div>
       </el-header>
       <el-container>
@@ -63,9 +75,9 @@
   display: none;
 }
 .el-menu-item{
-  color: #fff;
-  height: 35px;
-  line-height: 35px;
+  color: #bcc4cc;
+  height: 35px!important;
+  line-height: 35px!important;
   background-color: rgb(22, 56, 104);
   text-align: left;
   padding-left: 20px;
@@ -109,6 +121,18 @@ i.icon-sty{
   background-color: #22eeaa;
   z-index: 100;
 }
+.selected{
+  background-color: #428bca !important;
+  color: #fff !important;
+}
+.el-menu-item:focus, .el-menu-item:hover{
+  background-color: rgb(22, 56, 104);
+}
+.el-dropdown{
+  font-size: 18px;
+  line-height: 33px;
+  float: right;
+}
 </style>
 
 <script>
@@ -119,6 +143,7 @@ export default {
     return {
       menus: [],
       isselected:0,
+      username:"欢迎 Zk",
       defaultProps: {
         children: 'children',
         label: 'label'
@@ -135,7 +160,7 @@ export default {
   },
   methods:{
     getMenuList(){
-      this.$ajax.get("/menus").then((res)=>{
+      this.$axios.get("/menus").then((res)=>{
         if(res.data.success==true){
           this.menus=res.data.data;
         }
@@ -147,6 +172,9 @@ export default {
     },
     handleNodeClick(data) {
       console.log(data);
+    },
+    handleCommand(){
+
     },
     getNode(data){
       debugger;

@@ -16,6 +16,12 @@ module.exports = {
         pathRewrite: {
           '^/menus': 'menus'
         }
+      },
+      '/users':{
+        target:'http://localhost:3000',
+        pathRewrite: {
+          '^/users': 'users'
+        }
       }
     },
 
